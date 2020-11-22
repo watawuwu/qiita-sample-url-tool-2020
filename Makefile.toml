@@ -1,0 +1,16 @@
+[env]
+RUST_LOG = "url=log"
+RUST_BACKTRACE = "1"
+INSTALL_PREFIX = "${HOME}/.cargo"
+APP_ARGS = "foo%20bar"
+
+[tasks.run]
+command = "cargo"
+args = ["run", "${APP_ARGS}"]
+
+[tasks.install]
+command = "cargo"
+args = ["install", "--force", "--root", "${INSTALL_PREFIX}", "--path",  "."]
+
+[tasks.lint]
+dependencies = ["format", "clippy"]
