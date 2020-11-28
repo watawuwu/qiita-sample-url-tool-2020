@@ -1,8 +1,8 @@
 [env]
-RUST_LOG = "url=log"
+RUST_LOG       = "url=log"
 RUST_BACKTRACE = "1"
 INSTALL_PREFIX = "${HOME}/.cargo"
-APP_ARGS = "foo%20bar"
+APP_ARGS       = "foo%20bar"
 
 [tasks.run]
 command = "cargo"
