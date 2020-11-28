@@ -96,7 +96,7 @@ jobs:
         args: --release --target=${{ matrix.target }}
 
     - name: Create artifact
-      shell: bash -x {0}
+      
       run: |
         tar -acvf ${{ env.NAME }}-${{ steps.get_tag.outputs.tag }}-${{ matrix.target }}.tar.gz -C target/${{ matrix.target }}/release ${{ env.NAME }}{,.exe}
         set -e
