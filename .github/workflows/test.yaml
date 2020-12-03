@@ -39,6 +39,13 @@ jobs:
     - name: Setup code
       uses: actions/checkout@v2
 
+    # Work around https://github.com/actions/cache/issues/403 by using GNU tar instead of BSD tar.
+    - name: Install GNU tar
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install gnu-tar
+        echo PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH" >> $GITHUB_ENV
+
     - name: Setup Rust toolchain
       run: |
         rustup component add rustfmt clippy
@@ -52,7 +59,7 @@ jobs:
           ~/.cargo/registry
           ~/.cargo/git
           target
-        key: ${{ matrix.os }}-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        key: v3-${{ matrix.os }}-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
     - name: Test
       run: |
@@ -91,6 +98,13 @@ jobs:
     - name: Setup code
       uses: actions/checkout@v2
 
+    # Work around https://github.com/actions/cache/issues/403 by using GNU tar instead of BSD tar.
+    - name: Install GNU tar
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install gnu-tar
+        echo PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH" >> $GITHUB_ENV
+
     - name: Setup Rust toolchain
       uses: actions-rs/toolchain@v1
       with:
@@ -108,7 +122,7 @@ jobs:
           ~/.cargo/registry
           ~/.cargo/git
           target
-        key: v2-${{ matrix.os }}-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        key: v3-${{ matrix.os }}-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
     - name: Test
       uses: actions-rs/cargo@v1
