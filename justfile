@@ -5,12 +5,12 @@
 
 set shell := ["/bin/bash", "-c"]
 
-name                    := "url"
-log_level               := "debug"
-log                     := name + "=" + log_level
-prefix                  := env_var("HOME") + "/.cargo"
-app_args                := "foo%20bar"
-cargo_sub_options       := ""
+name              := "url"
+log_level         := "debug"
+log               := name + "=" + log_level
+prefix            := env_var("HOME") + "/.cargo"
+cargo_sub_options := ""
+app_args          := "foo%20bar"
 
 export RUST_LOG := log
 export RUST_BACKTRACE := "1"
@@ -22,32 +22,32 @@ alias t := test
 alias l := lint
 
 # Execute a main.rs
-run:
-	cargo run {{ cargo_sub_options }} {{ app_args }}
+run args=app_args opt=cargo_sub_options:
+	cargo run {{ opt }} -- {{ args }}
 
 # Run the tests
-test:
-	cargo test {{ cargo_sub_options }} -- --nocapture
+test opt=cargo_sub_options:
+	cargo test {{ opt }} -- --nocapture
 
 # Check syntax, but don't build object files
-check:
-	cargo check {{ cargo_sub_options }}
+check opt=cargo_sub_options:
+	cargo check {{ opt }}
 
 # Build all project
-build:
-	cargo build {{ cargo_sub_options }}
+build opt=cargo_sub_options:
+	cargo build {{ opt }}
 
 # Build all project
 release-build:
-	just cargo_sub_options="--release" build
+	just build --release
 
 # Remove the target directory
 clean:
 	cargo clean
 
 # Install to $(prefix) directory
-install:
-	cargo install --force --root {{ prefix }} --path .
+install pre=prefix:
+	cargo install --force --root {{ pre }} --path .
 
 # Run fmt
 fmt:
